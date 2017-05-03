@@ -18,7 +18,7 @@ public class CharMetricsTest extends TestCase {
         float expectedPercentage = 1f;
         CharMetrics charMetrics = Factory.createMetrics('a', 10);
         charMetrics.calculatePercentage(10);
-        Assert.assertEquals(charMetrics.getPercentage(), expectedPercentage);
+        Assert.assertEquals(charMetrics.getOccurrenceRatio(), expectedPercentage);
     }
 
     public void testCalculateCharSize__for100Percent() {

@@ -12,7 +12,7 @@ public class CharMetrics {
     private final char value;
     private final String key;
     private int charCounter;
-    private float percentage;
+    private float occurrenceRatio;
     private float charSize;
 
     public CharMetrics(char value) {
@@ -29,7 +29,7 @@ public class CharMetrics {
     public CharMetrics(char value, int charCounter, float percentage) {
         this(value);
         this.charCounter = charCounter;
-        this.percentage = percentage;
+        this.occurrenceRatio = percentage;
     }
 
     void increment() {
@@ -48,16 +48,29 @@ public class CharMetrics {
         return key;
     }
 
+    /**
+     * Calculates occurrence ratio with rounding.
+     * 
+     * @param totalCharsCounter
+     */
     void calculatePercentage(int totalCharsCounter) {
-        percentage = charCounter / (float) totalCharsCounter;
+        occurrenceRatio = (int) ((charCounter / (float) totalCharsCounter) * 100) / 100f;
     }
 
-    public float getPercentage() {
-        return percentage;
+    public float getOccurrenceRatio() {
+        return occurrenceRatio;
     }
 
+    /**
+     * Character size is calculated as inversely proportional to character occurrence ratio.
+     * 
+     * @param minimalSize
+     *            Minimal guaranteed size.
+     * @param additionalSizeRange
+     *            Additional size added based on occurrence ratio.
+     */
     public void calculateCharSize(int minimalSize, int additionalSizeRange) {
-        charSize = minimalSize + (additionalSizeRange * (int) ((1 - getPercentage()) * 100)) / 100f;
+        charSize = minimalSize + (additionalSizeRange * (int) ((1 - getOccurrenceRatio()) * 100)) / 100f;
     }
 
     public float getCharSize() {
@@ -67,11 +80,11 @@ public class CharMetrics {
     @Override
     public String toString() {
         return "CharMetrics [key=" + key + ", value=" + value + ", counter=" + charCounter + ", percentage="
-                + percentage + "]";
+                + occurrenceRatio + "]";
     }
 
     public String toShortString() {
-        return key + "; " + value + "; " + charCounter + "; " + percentage + ";";
+        return key + "; " + value + "; " + charCounter + "; " + occurrenceRatio + ";";
     }
 
 }

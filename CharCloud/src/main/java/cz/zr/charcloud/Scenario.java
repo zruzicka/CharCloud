@@ -17,6 +17,7 @@ import java.util.Collection;
 import cz.zr.charcloud.exc.InputException;
 import cz.zr.charcloud.gen.CSSGenerator;
 import cz.zr.charcloud.gen.ContentGenerator;
+import cz.zr.charcloud.gen.MetricsSerializer;
 import cz.zr.charcloud.utils.Consts;
 
 public class Scenario {
@@ -25,12 +26,14 @@ public class Scenario {
     private final ContentGenerator contentGenerator;
     private final CSSGenerator styleGenerator;
     private final CharRegister register;
+    private final MetricsSerializer metricsSerializer;
 
     public Scenario(File inputFile) throws Exception {
         super();
         this.inputFile = inputFile;
         contentGenerator = new ContentGenerator(new FileOutputStream(new File("output.html")));
         styleGenerator = new CSSGenerator(new FileOutputStream(new File("fontStyle.css")));
+        metricsSerializer = new MetricsSerializer(new FileOutputStream(new File("metrics.data")));
         register = new CharRegister();
     }
 
@@ -38,6 +41,7 @@ public class Scenario {
         int contentCharsAmount = generateContent();
         Collection<CharMetrics> metrics = register.getMetrics();
         calculateMetrics(metrics, contentCharsAmount);
+        metricsSerializer.serialize(metrics);
         styleGenerator.generate(metrics);
     }
 
