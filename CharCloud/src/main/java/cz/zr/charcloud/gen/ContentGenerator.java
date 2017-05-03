@@ -40,10 +40,17 @@ public class ContentGenerator extends AbstractGenerator {
     }
 
     private void writeHeader() throws InputException {
-        String header = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>title</title><style>"
+        String header = "<!DOCTYPE html><html><head>"
+                + "<title>CharCloud example</title>"
+                + "<meta charset='UTF-8'>"
+                + "<link rel='stylesheet' type='text/css' href='fontStyle.css' />"
+                + "<style>"
                 + "body {color:#000000;margin:10px;font-size:150%;background-color: #aaaaaa;}"
-                + "</style></head><body><div>"
-                + "<script>var t1= new Date().getTime();console.log('started: ' + t1);</script>";
+                + "</style>"
+                + "</head><body>"
+                + "<div>"
+                + "<script>var t1= new Date().getTime();console.log('started: ' + t1);"
+                + "</script>";
         write(header);
     }
 

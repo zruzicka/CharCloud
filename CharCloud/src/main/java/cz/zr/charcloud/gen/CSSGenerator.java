@@ -29,7 +29,7 @@ public class CSSGenerator extends AbstractGenerator {
         StringBuilder sb = new StringBuilder();
         sb.append("span." + metrics.getKey() + " {font-size: ");
         sb.append(20 + (int)(metrics.getPercentage() * 1000)/10f);
-        sb.append("px;}");
+        sb.append("px;}\n");
         write(sb.toString());
     }
 
