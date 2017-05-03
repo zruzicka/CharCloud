@@ -16,13 +16,13 @@ import java.util.Collection;
 import cz.zr.charcloud.exc.InputException;
 import cz.zr.charcloud.gen.ContentGenerator;
 
-public class Main {
+public class Scenario {
 
     private final File inputFile;
     private final ContentGenerator contentGenerator;
     private final CharRegister register;
 
-    public Main(File inputFile) throws Exception {
+    public Scenario(File inputFile) throws Exception {
         super();
         this.inputFile = inputFile;
         contentGenerator = new ContentGenerator(new FileOutputStream(new File("output.html")));
@@ -51,11 +51,6 @@ public class Main {
         for (CharMetrics charMetrics : metrics) {
             charMetrics.updatePercentage(totalCharsCounter);
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        Main main = new Main(new File("input_example.txt"));
-        main.execute();
     }
 
 }
