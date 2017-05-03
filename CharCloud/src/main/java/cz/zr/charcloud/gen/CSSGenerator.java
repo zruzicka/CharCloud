@@ -13,6 +13,11 @@ import java.util.Collection;
 import cz.zr.charcloud.CharMetrics;
 import cz.zr.charcloud.exc.InputException;
 
+/**
+ * Generates CSS output.
+ * 
+ * @author ZRuzicka
+ */
 public class CSSGenerator extends AbstractGenerator {
 
     public CSSGenerator(OutputStream output) {

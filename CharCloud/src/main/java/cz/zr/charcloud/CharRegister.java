@@ -12,6 +12,11 @@ import java.util.Collection;
 
 import cz.zr.charcloud.utils.Factory;
 
+/**
+ * {@link CharRegister} carries metrics for processed characters.
+ * 
+ * @author ZRuzicka
+ */
 public class CharRegister {
 
     static int CHAR_KEY_INDEX = 0;

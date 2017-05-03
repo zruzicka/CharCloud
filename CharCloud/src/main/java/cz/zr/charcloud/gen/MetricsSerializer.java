@@ -13,6 +13,11 @@ import java.util.Collection;
 import cz.zr.charcloud.CharMetrics;
 import cz.zr.charcloud.exc.InputException;
 
+/**
+ * {@link MetricsSerializer} serialises individual calculated {@link CharMetrics}.
+ * 
+ * @author ZRuzicka
+ */
 public class MetricsSerializer extends AbstractGenerator {
 
     public MetricsSerializer(OutputStream output) {

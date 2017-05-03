@@ -7,6 +7,11 @@
 
 package cz.zr.charcloud.exc;
 
+/**
+ * General CharCloud exception.
+ * 
+ * @author ZRuzicka
+ */
 public class CharCloudException extends Exception {
     
     private static final long serialVersionUID = 1L;

@@ -9,6 +9,11 @@ package cz.zr.charcloud.exc;
 
 import java.io.IOException;
 
+/**
+ * CharCloud IO Exception.
+ * 
+ * @author ZRuzicka
+ */
 public class InputException extends IOException {
 
     private static final long serialVersionUID = 1L;

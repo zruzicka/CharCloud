@@ -20,6 +20,11 @@ import cz.zr.charcloud.gen.ContentGenerator;
 import cz.zr.charcloud.gen.MetricsSerializer;
 import cz.zr.charcloud.utils.Consts;
 
+/**
+ * Main entry point which executes generating scenario. 
+ * 
+ * @author ZRuzicka
+ */
 public class Scenario {
 
     private final File inputFile;

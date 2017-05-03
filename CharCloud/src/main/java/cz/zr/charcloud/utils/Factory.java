@@ -9,6 +9,11 @@ package cz.zr.charcloud.utils;
 
 import cz.zr.charcloud.CharMetrics;
 
+/**
+ * Common CharCloud factory.
+ * 
+ * @author ZRuzicka
+ */
 public class Factory {
 
     public static CharMetrics createMetrics(char character) {

@@ -9,6 +9,13 @@
 package cz.zr.charcloud.gen;
 
 
+/**
+ * Common Generator interface.
+ * 
+ * @author ZRuzicka
+ */
 public interface Generator {
     // Marker interface.
+
+    // TODO Common Generator methods would be worth. 
 }

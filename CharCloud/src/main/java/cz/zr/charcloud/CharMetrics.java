@@ -7,6 +7,11 @@
 
 package cz.zr.charcloud;
 
+/**
+ * Individual character metrics.
+ * 
+ * @author ZRuzicka
+ */
 public class CharMetrics {
 
     private final char value;

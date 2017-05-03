@@ -13,6 +13,11 @@ import java.io.OutputStream;
 import cz.zr.charcloud.exc.InputException;
 import cz.zr.charcloud.utils.Consts;
 
+/**
+ * Common {@link AbstractGenerator} for output stream manipulation.
+ * 
+ * @author ZRuzicka
+ */
 public abstract class AbstractGenerator implements Generator {
 
     private final OutputStream output;
@@ -29,7 +34,7 @@ public abstract class AbstractGenerator implements Generator {
             throw new InputException(e);
         }
     }
-    
+
     public void finish() throws IOException {
         output.flush();
         output.close();

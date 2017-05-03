@@ -13,6 +13,11 @@ import java.io.OutputStream;
 import cz.zr.charcloud.CharMetrics;
 import cz.zr.charcloud.exc.InputException;
 
+/**
+ * Generates HTML output.
+ * 
+ * @author ZRuzicka
+ */
 public class ContentGenerator extends AbstractGenerator {
 
     private int counter;
