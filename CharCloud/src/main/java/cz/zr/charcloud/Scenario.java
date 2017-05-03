@@ -40,8 +40,8 @@ public class Scenario {
             if (inputChar < 32 || inputChar >= CharRegister.REGISTER_LENGTH) {
                 continue;
             }
-            contentGenerator.add(inputChar);
-            register.add(inputChar);
+            CharMetrics metrics = register.add(inputChar);
+            contentGenerator.add(metrics);
             totalCharsCounter++;
         }
         contentGenerator.finish();

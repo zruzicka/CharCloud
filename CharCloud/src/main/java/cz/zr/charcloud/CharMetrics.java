@@ -28,6 +28,14 @@ public class CharMetrics {
         return charCounter;
     }
 
+    public char getCharValue() {
+        return value;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
     void updatePercentage(int totalCharsCounter) {
         percentage = charCounter / (float) totalCharsCounter;
     }

@@ -24,7 +24,7 @@ public class CharRegister {
         register = new Object[REGISTER_LENGTH][2];
     }
 
-    public void add(char character) {
+    public CharMetrics add(char character) {
         CharMetrics metrics = loadMetricsAt(character);
         if (metrics != null) {
             metrics.increment();
@@ -32,6 +32,7 @@ public class CharRegister {
             metrics = Factory.createMetrics(character);
             register[character][METRICS_INDEX] = metrics;
         }
+        return metrics;
     }
 
     public Collection<CharMetrics> getMetrics() {

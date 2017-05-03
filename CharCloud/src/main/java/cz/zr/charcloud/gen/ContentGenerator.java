@@ -10,6 +10,7 @@ package cz.zr.charcloud.gen;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import cz.zr.charcloud.CharMetrics;
 import cz.zr.charcloud.exc.InputException;
 import cz.zr.charcloud.utils.Consts;
 
@@ -30,10 +31,10 @@ public class ContentGenerator implements Generator {
         header();
     }
 
-    public void add(char content) throws InputException {
+    public void add(CharMetrics metrics) throws InputException {
         sb = new StringBuilder();
-        sb.append("<span>");
-        sb.append(content);
+        sb.append("<span class='"+metrics.getKey()+"'>");
+        sb.append(metrics.getCharValue());
         sb.append("</span>");
         write(sb.toString());
         counter++;
