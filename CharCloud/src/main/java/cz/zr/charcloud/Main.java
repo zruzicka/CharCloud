@@ -11,6 +11,7 @@ import java.io.IOException;
  *
  */
 import java.io.InputStream;
+import java.util.Collection;
 
 import cz.zr.charcloud.exc.InputException;
 import cz.zr.charcloud.gen.ContentGenerator;
@@ -32,13 +33,24 @@ public class Main {
         contentGenerator.init();
 
         int input;
+        int totalCharsCounter = 0;
         InputStream inputStream = new FileInputStream(inputFile);
         while ((input = inputStream.read()) != -1) {
             char inputChar = (char) input;
+            if (inputChar < 32 || inputChar >= CharRegister.REGISTER_LENGTH) {
+                continue;
+            }
             contentGenerator.add(inputChar);
             register.add(inputChar);
+            totalCharsCounter++;
         }
         contentGenerator.finish();
+        inputStream.close();
+
+        Collection<CharMetrics> metrics = register.getMetrics();
+        for (CharMetrics charMetrics : metrics) {
+            charMetrics.updatePercentage(totalCharsCounter);
+        }
     }
 
     public static void main(String[] args) throws Exception {

@@ -11,7 +11,8 @@ public class CharMetrics {
 
     private final char value;
     private final String key;
-    private int counter;
+    private int charCounter;
+    private float percentage;
 
     public CharMetrics(char value) {
         super();
@@ -20,16 +21,25 @@ public class CharMetrics {
     }
 
     void increment() {
-        counter++;
+        charCounter++;
     }
 
     public int getCounterValue() {
-        return counter;
+        return charCounter;
+    }
+
+    void updatePercentage(int totalCharsCounter) {
+        percentage = charCounter / (float) totalCharsCounter;
     }
 
     @Override
     public String toString() {
-        return "CharMetrics [key=" + key + ", value=" + value + ", counter=" + counter + "]";
+        return "CharMetrics [key=" + key + ", value=" + value + ", counter=" + charCounter + ", percentage="
+                + percentage + "]";
+    }
+
+    public String toShortString() {
+        return key + "; " + value + "; " + charCounter + "; " + percentage + ";";
     }
 
 }
