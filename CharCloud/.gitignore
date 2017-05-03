@@ -1,6 +1,7 @@
 /target/
 /.settings/
-/.classpath
-/.project
+.classpath
+.project
 input_example.txt
 output.html
+fontStyle.css

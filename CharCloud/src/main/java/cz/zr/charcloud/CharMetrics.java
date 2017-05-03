@@ -40,6 +40,10 @@ public class CharMetrics {
         percentage = charCounter / (float) totalCharsCounter;
     }
 
+    public float getPercentage() {
+        return percentage;
+    }
+
     @Override
     public String toString() {
         return "CharMetrics [key=" + key + ", value=" + value + ", counter=" + charCounter + ", percentage="

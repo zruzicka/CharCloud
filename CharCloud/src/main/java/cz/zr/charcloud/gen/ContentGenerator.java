@@ -12,49 +12,34 @@ import java.io.OutputStream;
 
 import cz.zr.charcloud.CharMetrics;
 import cz.zr.charcloud.exc.InputException;
-import cz.zr.charcloud.utils.Consts;
 
-public class ContentGenerator implements Generator {
+public class ContentGenerator extends AbstractGenerator {
 
-    private final OutputStream output;
-
-    private StringBuilder sb;
-    
     private int counter;
 
     public ContentGenerator(OutputStream output) {
-        super();
-        this.output = output;
+        super(output);
     }
 
     public void init() throws InputException {
-        header();
+        writeHeader();
     }
 
     public void add(CharMetrics metrics) throws InputException {
-        sb = new StringBuilder();
-        sb.append("<span class='"+metrics.getKey()+"'>");
+        StringBuilder sb = new StringBuilder();
+        sb.append("<span class='" + metrics.getKey() + "'>");
         sb.append(metrics.getCharValue());
         sb.append("</span>");
         write(sb.toString());
         counter++;
     }
 
-    private void write(String string) throws InputException {
-        try {
-            output.write(string.getBytes(Consts.ENCODING));
-        } catch (IOException e) {
-            throw new InputException(e);
-        }
-    }
-
     public void finish() throws IOException {
-        footer();
-        output.flush();
-        output.close();
+        writeFooter();
+        super.finish();
     }
 
-    private void header() throws InputException {
+    private void writeHeader() throws InputException {
         String header = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>title</title><style>"
                 + "body {color:#000000;margin:10px;font-size:150%;background-color: #aaaaaa;}"
                 + "</style></head><body><div>"
@@ -62,9 +47,9 @@ public class ContentGenerator implements Generator {
         write(header);
     }
 
-    private void footer() throws InputException {
-        String footer = "<script>var t2= new Date().getTime();console.log('finished: ' + t2);console.log('delta t: ' + (t2-t1));console.log('content counter: ' + ("+counter+"));</script>"
-                + "</div></body></html>";
+    private void writeFooter() throws InputException {
+        String footer = "<script>var t2= new Date().getTime();console.log('finished: ' + t2);console.log('delta t: ' + (t2-t1));console.log('content counter: ' + ("
+                + counter + "));</script>" + "</div></body></html>";
         write(footer);
     }
 

@@ -14,18 +14,21 @@ import java.io.InputStream;
 import java.util.Collection;
 
 import cz.zr.charcloud.exc.InputException;
+import cz.zr.charcloud.gen.CSSGenerator;
 import cz.zr.charcloud.gen.ContentGenerator;
 
 public class Scenario {
 
     private final File inputFile;
     private final ContentGenerator contentGenerator;
+    private final CSSGenerator styleGenerator;
     private final CharRegister register;
 
     public Scenario(File inputFile) throws Exception {
         super();
         this.inputFile = inputFile;
         contentGenerator = new ContentGenerator(new FileOutputStream(new File("output.html")));
+        styleGenerator = new CSSGenerator(new FileOutputStream(new File("fontStyle.css")));
         register = new CharRegister();
     }
 
@@ -51,6 +54,7 @@ public class Scenario {
         for (CharMetrics charMetrics : metrics) {
             charMetrics.updatePercentage(totalCharsCounter);
         }
+        styleGenerator.generate(metrics);
     }
 
 }
