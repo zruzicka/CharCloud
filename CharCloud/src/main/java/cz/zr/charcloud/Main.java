@@ -19,11 +19,13 @@ public class Main {
 
     private final File inputFile;
     private final ContentGenerator contentGenerator;
+    private final CharRegister register;
 
     public Main(File inputFile) throws Exception {
         super();
         this.inputFile = inputFile;
         contentGenerator = new ContentGenerator(new FileOutputStream(new File("output.html")));
+        register = new CharRegister();
     }
 
     public void execute() throws IOException, InputException {
@@ -34,6 +36,7 @@ public class Main {
         while ((input = inputStream.read()) != -1) {
             char inputChar = (char) input;
             contentGenerator.add(inputChar);
+            register.add(inputChar);
         }
         contentGenerator.finish();
     }

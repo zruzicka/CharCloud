@@ -5,7 +5,7 @@
  *
  */
 
-package cz.zr.charcloud;
+package cz.zr.charcloud.utils;
 
 public class Consts {
 

@@ -10,8 +10,8 @@ package cz.zr.charcloud.gen;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import cz.zr.charcloud.Consts;
 import cz.zr.charcloud.exc.InputException;
+import cz.zr.charcloud.utils.Consts;
 
 public class ContentGenerator implements Generator {
 
