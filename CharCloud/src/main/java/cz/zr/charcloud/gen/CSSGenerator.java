@@ -15,9 +15,6 @@ import cz.zr.charcloud.exc.InputException;
 
 public class CSSGenerator extends AbstractGenerator {
 
-    private static int MINIMAL_SIZE = 10;
-    private static int SIZE_APPENDIX = 20;
-
     public CSSGenerator(OutputStream output) {
         super(output);
     }
@@ -31,13 +28,9 @@ public class CSSGenerator extends AbstractGenerator {
     public void add(CharMetrics metrics) throws InputException {
         StringBuilder sb = new StringBuilder();
         sb.append("span." + metrics.getKey() + " {font-size: ");
-        sb.append(calculateCharSize(metrics));
+        sb.append(metrics.getCharSize());
         sb.append("px;}\n");
         write(sb.toString());
-    }
-
-    private float calculateCharSize(CharMetrics metrics) {
-        return MINIMAL_SIZE + (int) SIZE_APPENDIX * ((1 - metrics.getPercentage()) * 100) / 100f;
     }
 
 }

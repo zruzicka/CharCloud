@@ -2,6 +2,7 @@ package cz.zr.charcloud;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 /*
@@ -16,6 +17,7 @@ import java.util.Collection;
 import cz.zr.charcloud.exc.InputException;
 import cz.zr.charcloud.gen.CSSGenerator;
 import cz.zr.charcloud.gen.ContentGenerator;
+import cz.zr.charcloud.utils.Consts;
 
 public class Scenario {
 
@@ -33,10 +35,16 @@ public class Scenario {
     }
 
     public void execute() throws IOException, InputException {
-        contentGenerator.init();
+        int contentCharsAmount = generateContent();
+        Collection<CharMetrics> metrics = register.getMetrics();
+        calculateMetrics(metrics, contentCharsAmount);
+        styleGenerator.generate(metrics);
+    }
 
+    private int generateContent() throws InputException, FileNotFoundException, IOException {
         int input;
-        int totalCharsCounter = 0;
+        int contentCharsCounter = 0;
+        contentGenerator.init();
         InputStream inputStream = new FileInputStream(inputFile);
         while ((input = inputStream.read()) != -1) {
             char inputChar = (char) input;
@@ -45,16 +53,18 @@ public class Scenario {
             }
             CharMetrics metrics = register.add(inputChar);
             contentGenerator.add(metrics);
-            totalCharsCounter++;
+            contentCharsCounter++;
         }
         contentGenerator.finish();
         inputStream.close();
+        return contentCharsCounter;
+    }
 
-        Collection<CharMetrics> metrics = register.getMetrics();
+    private void calculateMetrics(Collection<CharMetrics> metrics, int totalCharsCounter) {
         for (CharMetrics charMetrics : metrics) {
-            charMetrics.updatePercentage(totalCharsCounter);
+            charMetrics.calculatePercentage(totalCharsCounter);
+            charMetrics.calculateCharSize(Consts.CHAR_MINIMAL_SIZE, Consts.CHAR_ADDITIONAL_SIZE_RANGE);
         }
-        styleGenerator.generate(metrics);
     }
 
 }

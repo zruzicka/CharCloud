@@ -11,4 +11,7 @@ public class Consts {
 
     public static String ENCODING = "UTF-8";
 
+    public static int CHAR_MINIMAL_SIZE = 10;
+    public static int CHAR_ADDITIONAL_SIZE_RANGE = 20;
+
 }

@@ -15,4 +15,12 @@ public class Factory {
         return new CharMetrics(character);
     }
 
+    public static CharMetrics createMetrics(char character, int charCounter) {
+        return new CharMetrics(character, charCounter);
+    }
+
+    public static CharMetrics createMetrics(char character, int charCounter, float percentage) {
+        return new CharMetrics(character, charCounter, percentage);
+    }
+
 }

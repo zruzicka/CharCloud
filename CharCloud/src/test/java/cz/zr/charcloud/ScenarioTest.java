@@ -13,8 +13,12 @@ import junit.framework.TestCase;
 
 public class ScenarioTest extends TestCase {
 
-    public void testExecute() throws Exception {
+    public void testExecute__example() throws Exception {
         new Scenario(new File("input_example.txt")).execute();
+    }
+
+    public void testExecute__att() throws Exception {
+        new Scenario(new File("input_att_wiki.txt")).execute();
     }
 
 }
