@@ -35,6 +35,7 @@ public class CharRegister {
             metrics.increment();
         } else {
             metrics = Factory.createMetrics(character);
+            metrics.increment(); // The first character occurrence must be counted too.
             register[character][METRICS_INDEX] = metrics;
         }
         return metrics;
