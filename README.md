@@ -1,8 +1,9 @@
 # CharCloud #
 
 [![Build status](https://api.travis-ci.org/zruzicka/CharCloud.svg?branch=master)](https://travis-ci.org/zruzicka/CharCloud/)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=cz.zr.charcloud%3ACharCloud&metric=alert_status)](https://sonarcloud.io/dashboard?id=cz.zr.charcloud%3ACharCloud)
 
-CharCloud is simple demo project which generates HTML content based on provided plain text input. 
+CharCloud is a simple demo project which generates HTML content based on provided plain text input. 
 Generated HTML uses style in a way that every letter's height is inversely proportional to letter frequency in the particular content.
 
 ## Known available approaches ##
