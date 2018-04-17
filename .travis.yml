@@ -10,10 +10,19 @@ jdk:
   - oraclejdk8
 
 script:
-  # JaCoCo is used to have code coverage, the agent has to be activated
+  # JaCoCo is used to have code coverage, the agent has to be activated.
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+  # Just trying to execute additional scripts via Travis CI by the same build.
+  - mvn -v 
 
 cache:
   directories:
     - '$HOME/.m2/repository'
     - '$HOME/.sonar/cache'
+
+notifications:
+  email:
+    recipients:
+      - zruzicka2@gmail.com
+    on_success: never # default: change
+    on_failure: always # default: always
