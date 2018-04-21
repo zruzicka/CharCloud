@@ -11,7 +11,7 @@ import cz.zr.charcloud.CharMetrics;
 
 /**
  * Common CharCloud factory.
- * 
+ *
  * @author ZRuzicka
  */
 public class Factory {
@@ -28,4 +28,7 @@ public class Factory {
         return new CharMetrics(character, charCounter, percentage);
     }
 
+	private Factory() {
+		// Intentionally left empty.
+	}
 }

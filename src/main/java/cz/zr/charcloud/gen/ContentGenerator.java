@@ -15,7 +15,7 @@ import cz.zr.charcloud.exc.InputException;
 
 /**
  * Generates HTML output.
- * 
+ *
  * @author ZRuzicka
  */
 public class ContentGenerator extends AbstractGenerator {
@@ -39,7 +39,8 @@ public class ContentGenerator extends AbstractGenerator {
         counter++;
     }
 
-    public void finish() throws IOException {
+    @Override
+	public void finish() throws IOException {
         writeFooter();
         super.finish();
     }

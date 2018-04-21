@@ -14,14 +14,14 @@ import cz.zr.charcloud.utils.Factory;
 
 /**
  * {@link CharRegister} carries metrics for processed characters.
- * 
+ *
  * @author ZRuzicka
  */
 public class CharRegister {
 
-    static int CHAR_KEY_INDEX = 0;
-    static int METRICS_INDEX = 1;
-    static int REGISTER_LENGTH = 255;
+	static final int CHAR_KEY_INDEX = 0;
+    static final int METRICS_INDEX = 1;
+    static final int REGISTER_LENGTH = 255;
 
     private final Object[][] register;
 

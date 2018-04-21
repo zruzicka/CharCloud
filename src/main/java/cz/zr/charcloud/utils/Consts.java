@@ -9,7 +9,7 @@ package cz.zr.charcloud.utils;
 
 /**
  * Constants
- * 
+ *
  * @author ZRuzicka
  */
 public class Consts {
@@ -23,4 +23,7 @@ public class Consts {
     /** Additional size added based on character occurrence ratio. */
     public static int CHAR_ADDITIONAL_SIZE_RANGE = 20;
 
+	private Consts() {
+		// Intentionally left empty.
+	}
 }

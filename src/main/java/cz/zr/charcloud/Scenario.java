@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 
+import cz.zr.charcloud.exc.CharCloudException;
 import cz.zr.charcloud.exc.InputException;
 import cz.zr.charcloud.gen.CSSGenerator;
 import cz.zr.charcloud.gen.ContentGenerator;
@@ -21,8 +22,8 @@ import cz.zr.charcloud.gen.MetricsSerializer;
 import cz.zr.charcloud.utils.Consts;
 
 /**
- * Main entry point which executes generating scenario. 
- * 
+ * Main entry point which executes generating scenario.
+ *
  * @author ZRuzicka
  */
 public class Scenario {
@@ -33,12 +34,22 @@ public class Scenario {
     private final CharRegister register;
     private final MetricsSerializer metricsSerializer;
 
-    public Scenario(File inputFile) throws Exception {
+	/**
+	 * @param inputFile
+	 *            Input template for content analysis.
+	 * @throws CharCloudException
+	 *             in case of dependencies instantiation fail.
+	 */
+    public Scenario(File inputFile) throws CharCloudException {
         super();
         this.inputFile = inputFile;
-        contentGenerator = new ContentGenerator(new FileOutputStream(new File("output.html")));
-        styleGenerator = new CSSGenerator(new FileOutputStream(new File("fontStyle.css")));
-        metricsSerializer = new MetricsSerializer(new FileOutputStream(new File("metrics.data")));
+        try {
+        	contentGenerator = new ContentGenerator(new FileOutputStream(new File("output.html")));
+        	styleGenerator = new CSSGenerator(new FileOutputStream(new File("fontStyle.css")));
+        	metricsSerializer = new MetricsSerializer(new FileOutputStream(new File("metrics.data")));
+		} catch (IOException e) {
+			throw new CharCloudException(e);
+		}
         register = new CharRegister();
     }
 
