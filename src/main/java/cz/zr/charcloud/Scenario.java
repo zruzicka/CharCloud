@@ -53,12 +53,16 @@ public class Scenario {
         register = new CharRegister();
     }
 
-    public void execute() throws IOException, InputException {
-        int contentCharsAmount = generateContent();
-        Collection<CharMetrics> metrics = register.getMetrics();
-        calculateMetrics(metrics, contentCharsAmount);
-        metricsSerializer.serialize(metrics);
-        styleGenerator.generate(metrics);
+    public void execute() throws CharCloudException {
+    	try {
+    		int contentCharsAmount = generateContent();
+    		Collection<CharMetrics> metrics = register.getMetrics();
+    		calculateMetrics(metrics, contentCharsAmount);
+    		metricsSerializer.serialize(metrics);
+    		styleGenerator.generate(metrics);
+		} catch (Exception e) {
+			throw new CharCloudException(e);
+		}
     }
 
     private int generateContent() throws InputException, FileNotFoundException, IOException {
