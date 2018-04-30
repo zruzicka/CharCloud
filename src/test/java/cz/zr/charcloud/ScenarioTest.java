@@ -19,6 +19,7 @@ import junit.framework.TestCase;
 @RunWith(JUnit4.class)
 public class ScenarioTest extends TestCase {
 
+	@Test
 	public void testExecute__att_example() throws Exception {
 		new Scenario(new File("input_att_wiki.txt")).execute();
 	}

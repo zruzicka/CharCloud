@@ -2,7 +2,6 @@ package cz.zr.charcloud;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 /*
@@ -15,7 +14,6 @@ import java.io.InputStream;
 import java.util.Collection;
 
 import cz.zr.charcloud.exc.CharCloudException;
-import cz.zr.charcloud.exc.InputException;
 import cz.zr.charcloud.gen.CSSGenerator;
 import cz.zr.charcloud.gen.ContentGenerator;
 import cz.zr.charcloud.gen.MetricsSerializer;
@@ -34,53 +32,62 @@ public class Scenario {
     private final CharRegister register;
     private final MetricsSerializer metricsSerializer;
 
-	/**
-	 * @param inputFile
-	 *            Input template for content analysis.
-	 * @throws CharCloudException
-	 *             in case of dependencies instantiation fail.
-	 */
+    /**
+     * @param inputFile
+     *            Input template for content analysis.
+     * @throws CharCloudException
+     *             in case of dependencies instantiation fail.
+     */
     public Scenario(File inputFile) throws CharCloudException {
         super();
         this.inputFile = inputFile;
         try {
-        	contentGenerator = new ContentGenerator(new FileOutputStream(new File("output.html")));
-        	styleGenerator = new CSSGenerator(new FileOutputStream(new File("fontStyle.css")));
-        	metricsSerializer = new MetricsSerializer(new FileOutputStream(new File("metrics.data")));
-		} catch (IOException e) {
-			throw new CharCloudException(e);
-		}
+            contentGenerator = new ContentGenerator(new FileOutputStream(new File("output.html")));
+            styleGenerator = new CSSGenerator(new FileOutputStream(new File("fontStyle.css")));
+            metricsSerializer = new MetricsSerializer(new FileOutputStream(new File("metrics.data")));
+        } catch (IOException e) {
+            throw new CharCloudException(e);
+        }
         register = new CharRegister();
     }
 
+    /**
+     * Executes main CharCloud scenario which run input analysis and content generating.
+     *
+     * @throws CharCloudException
+     */
     public void execute() throws CharCloudException {
-    	try {
-    		int contentCharsAmount = generateContent();
-    		Collection<CharMetrics> metrics = register.getMetrics();
-    		calculateMetrics(metrics, contentCharsAmount);
-    		metricsSerializer.serialize(metrics);
-    		styleGenerator.generate(metrics);
-		} catch (Exception e) {
-			throw new CharCloudException(e);
-		}
+        try {
+            int contentCharsAmount = generateContent();
+            Collection<CharMetrics> metrics = register.getMetrics();
+            calculateMetrics(metrics, contentCharsAmount);
+            metricsSerializer.serialize(metrics);
+            styleGenerator.generate(metrics);
+        } catch (CharCloudException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new CharCloudException(e);
+        }
     }
 
-    private int generateContent() throws InputException, FileNotFoundException, IOException {
+    private int generateContent() throws CharCloudException {
         int input;
         int contentCharsCounter = 0;
-        contentGenerator.init();
-        InputStream inputStream = new FileInputStream(inputFile);
-        while ((input = inputStream.read()) != -1) {
-            char inputChar = (char) input;
-            if (inputChar < 32 || inputChar >= CharRegister.REGISTER_LENGTH) {
-                continue;
+        try (InputStream inputStream = new FileInputStream(inputFile)) {
+            contentGenerator.init();
+            while ((input = inputStream.read()) != -1) {
+                char inputChar = (char) input;
+                if (inputChar < 32 || inputChar >= CharRegister.REGISTER_LENGTH) {
+                    continue;
+                }
+                CharMetrics metrics = register.add(inputChar);
+                contentGenerator.add(metrics);
+                contentCharsCounter++;
             }
-            CharMetrics metrics = register.add(inputChar);
-            contentGenerator.add(metrics);
-            contentCharsCounter++;
+            contentGenerator.finish();
+        } catch (Exception e) {
+            throw new CharCloudException(e);
         }
-        contentGenerator.finish();
-        inputStream.close();
         return contentCharsCounter;
     }
 
