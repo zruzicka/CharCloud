@@ -15,7 +15,7 @@ import cz.zr.charcloud.utils.Consts;
 
 /**
  * Common {@link AbstractGenerator} for output stream manipulation.
- * 
+ *
  * @author ZRuzicka
  */
 public abstract class AbstractGenerator implements Generator {
@@ -35,8 +35,15 @@ public abstract class AbstractGenerator implements Generator {
         }
     }
 
-    public void finish() throws IOException {
-        output.flush();
-        output.close();
+    /**
+     * @throws InputException
+     */
+    public void finish() throws InputException {
+        try {
+            output.flush();
+            output.close();
+        } catch (IOException e) {
+            throw new InputException(e);
+        }
     }
 }

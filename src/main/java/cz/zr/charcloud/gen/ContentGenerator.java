@@ -7,7 +7,6 @@
 
 package cz.zr.charcloud.gen;
 
-import java.io.IOException;
 import java.io.OutputStream;
 
 import cz.zr.charcloud.CharMetrics;
@@ -40,7 +39,7 @@ public class ContentGenerator extends AbstractGenerator {
     }
 
     @Override
-	public void finish() throws IOException {
+	public void finish() throws InputException {
         writeFooter();
         super.finish();
     }

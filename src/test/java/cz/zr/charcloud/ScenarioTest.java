@@ -9,23 +9,57 @@ package cz.zr.charcloud;
 
 import java.io.File;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import cz.zr.charcloud.exc.CharCloudException;
+import cz.zr.charcloud.utils.Consts.GeneratedFileName;
 import junit.framework.TestCase;
 
+/**
+ * {@link Scenario} related test cases.
+ *
+ * @author zruzicka
+ */
 @RunWith(JUnit4.class)
+// TODO Use JUnit 5.
 public class ScenarioTest extends TestCase {
 
-	@Test
-	public void testExecute__att_example() throws Exception {
-		new Scenario(new File("input_att_wiki.txt")).execute();
-	}
+    private static final String VALID_INPUT = "input_att_wiki.txt";
 
-	@Test(expected = CharCloudException.class)
-	public void testScenario__CharCloudException() throws CharCloudException {
-		new Scenario(new File("nonExistingResource.none")).execute();
-	}
+    /**
+     * Test for standard and valid scenario.
+     *
+     * @throws CharCloudException
+     */
+    @Test
+    public void testExecute__validInput__success() throws CharCloudException {
+        new Scenario(new File(VALID_INPUT)).execute();
+    }
+
+    /**
+     * Non existing input file is specified. Defined exception is expected during scenario execution.
+     *
+     * @throws CharCloudException
+     */
+    @Test(expected = CharCloudException.class)
+    public void testExecute__nonExistingInput__CharCloudException() throws CharCloudException {
+        Scenario scenario = new Scenario(new File("nonExistingResource.none"));
+        scenario.execute();
+    }
+
+    /**
+     * Generated files are removed before each test method.
+     */
+    @Before
+    public void cleanup() {
+        GeneratedFileName[] generatedFileNames = GeneratedFileName.values();
+        for (GeneratedFileName generatedFileName : generatedFileNames) {
+            File file = new File(generatedFileName.getName());
+            file.delete();
+        }
+    }
+
 }

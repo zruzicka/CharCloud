@@ -14,10 +14,12 @@ import java.io.InputStream;
 import java.util.Collection;
 
 import cz.zr.charcloud.exc.CharCloudException;
+import cz.zr.charcloud.exc.InputException;
 import cz.zr.charcloud.gen.CSSGenerator;
 import cz.zr.charcloud.gen.ContentGenerator;
 import cz.zr.charcloud.gen.MetricsSerializer;
 import cz.zr.charcloud.utils.Consts;
+import cz.zr.charcloud.utils.Consts.GeneratedFileName;
 
 /**
  * Main entry point which executes generating scenario.
@@ -42,10 +44,11 @@ public class Scenario {
         super();
         this.inputFile = inputFile;
         try {
-            contentGenerator = new ContentGenerator(new FileOutputStream(new File("output.html")));
-            styleGenerator = new CSSGenerator(new FileOutputStream(new File("fontStyle.css")));
-            metricsSerializer = new MetricsSerializer(new FileOutputStream(new File("metrics.data")));
-        } catch (IOException e) {
+            contentGenerator = new ContentGenerator(new FileOutputStream(new File(GeneratedFileName.HTML.getName())));
+            styleGenerator = new CSSGenerator(new FileOutputStream(new File(GeneratedFileName.CSS.getName())));
+            metricsSerializer = new MetricsSerializer(new FileOutputStream(new File(GeneratedFileName.DATA.getName())));
+        }
+        catch (IOException e) {
             throw new CharCloudException(e);
         }
         register = new CharRegister();
@@ -62,10 +65,14 @@ public class Scenario {
             Collection<CharMetrics> metrics = register.getMetrics();
             calculateMetrics(metrics, contentCharsAmount);
             metricsSerializer.serialize(metrics);
+            metricsSerializer.finish();
             styleGenerator.generate(metrics);
-        } catch (CharCloudException e) {
+            styleGenerator.finish();
+        }
+        catch (CharCloudException e) {
             throw e;
-        } catch (Exception e) {
+        }
+        catch (InputException e) {
             throw new CharCloudException(e);
         }
     }
