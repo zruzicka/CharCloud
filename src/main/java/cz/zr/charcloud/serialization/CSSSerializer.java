@@ -5,32 +5,32 @@
  *
  */
 
-package cz.zr.charcloud.gen;
+package cz.zr.charcloud.serialization;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
 
 import cz.zr.charcloud.CharMetrics;
-import cz.zr.charcloud.exc.InputException;
 
 /**
  * Generates CSS output.
- * 
+ *
  * @author ZRuzicka
  */
-public class CSSGenerator extends AbstractGenerator {
+public class CSSSerializer extends AbstractSerializer {
 
-    public CSSGenerator(OutputStream output) {
+    public CSSSerializer(OutputStream output) {
         super(output);
     }
 
-    public void generate(Collection<CharMetrics> metrics) throws InputException {
+    public void serialize(Collection<CharMetrics> metrics) throws IOException {
         for (CharMetrics charMetrics : metrics) {
             add(charMetrics);
         }
     }
 
-    public void add(CharMetrics metrics) throws InputException {
+    public void add(CharMetrics metrics) throws IOException {
         StringBuilder sb = new StringBuilder();
         sb.append("span." + metrics.getKey() + " {font-size: ");
         sb.append(metrics.getCharSize());

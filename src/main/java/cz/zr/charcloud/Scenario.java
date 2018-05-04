@@ -14,10 +14,9 @@ import java.io.InputStream;
 import java.util.Collection;
 
 import cz.zr.charcloud.exc.CharCloudException;
-import cz.zr.charcloud.exc.InputException;
-import cz.zr.charcloud.gen.CSSGenerator;
-import cz.zr.charcloud.gen.ContentGenerator;
-import cz.zr.charcloud.gen.MetricsSerializer;
+import cz.zr.charcloud.serialization.CSSSerializer;
+import cz.zr.charcloud.serialization.HTMLSerializer;
+import cz.zr.charcloud.serialization.MetricsSerializer;
 import cz.zr.charcloud.utils.Consts;
 import cz.zr.charcloud.utils.Consts.GeneratedFileName;
 
@@ -29,29 +28,25 @@ import cz.zr.charcloud.utils.Consts.GeneratedFileName;
 public class Scenario {
 
     private final File inputFile;
-    private final ContentGenerator contentGenerator;
-    private final CSSGenerator styleGenerator;
+    private final HTMLSerializer htmlSerializer;
+    private final CSSSerializer styleSerializer;
     private final CharRegister register;
     private final MetricsSerializer metricsSerializer;
 
     /**
      * @param inputFile
      *            Input template for content analysis.
-     * @throws CharCloudException
-     *             in case of dependencies instantiation fail.
+     * @throws IOException
+     *             In case that related output files are not available.
      */
-    public Scenario(File inputFile) throws CharCloudException {
+    public Scenario(File inputFile) throws IOException {
         super();
         this.inputFile = inputFile;
-        try {
-            contentGenerator = new ContentGenerator(new FileOutputStream(new File(GeneratedFileName.HTML.getName())));
-            styleGenerator = new CSSGenerator(new FileOutputStream(new File(GeneratedFileName.CSS.getName())));
-            metricsSerializer = new MetricsSerializer(new FileOutputStream(new File(GeneratedFileName.DATA.getName())));
-        }
-        catch (IOException e) {
-            throw new CharCloudException(e);
-        }
         register = new CharRegister();
+        // TODO Use factory methods for serializers!
+        htmlSerializer = new HTMLSerializer(new FileOutputStream(new File(GeneratedFileName.HTML.getName())));
+        styleSerializer = new CSSSerializer(new FileOutputStream(new File(GeneratedFileName.CSS.getName())));
+        metricsSerializer = new MetricsSerializer(new FileOutputStream(new File(GeneratedFileName.DATA.getName())));
     }
 
     /**
@@ -61,39 +56,38 @@ public class Scenario {
      */
     public void execute() throws CharCloudException {
         try {
-            int contentCharsAmount = generateContent();
+            int contentCharsAmount = generateHTMLContent();
             Collection<CharMetrics> metrics = register.getMetrics();
             calculateMetrics(metrics, contentCharsAmount);
             metricsSerializer.serialize(metrics);
             metricsSerializer.finish();
-            styleGenerator.generate(metrics);
-            styleGenerator.finish();
-        }
-        catch (CharCloudException e) {
-            throw e;
-        }
-        catch (InputException e) {
+            styleSerializer.serialize(metrics);
+            styleSerializer.finish();
+            /*
+             * HTML needs to be generated while input file is read, but CSS and metrics could be handled more separately and
+             * eventual fail of one serializer does not need to affect other one(s).
+             */
+        } catch (IOException e) {
+            // TODO provide exception logging.
             throw new CharCloudException(e);
         }
     }
 
-    private int generateContent() throws CharCloudException {
+    private int generateHTMLContent() throws IOException {
         int input;
         int contentCharsCounter = 0;
         try (InputStream inputStream = new FileInputStream(inputFile)) {
-            contentGenerator.init();
+            htmlSerializer.init();
             while ((input = inputStream.read()) != -1) {
                 char inputChar = (char) input;
                 if (inputChar < 32 || inputChar >= CharRegister.REGISTER_LENGTH) {
                     continue;
                 }
                 CharMetrics metrics = register.add(inputChar);
-                contentGenerator.add(metrics);
+                htmlSerializer.add(metrics);
                 contentCharsCounter++;
             }
-            contentGenerator.finish();
-        } catch (Exception e) {
-            throw new CharCloudException(e);
+            htmlSerializer.finish();
         }
         return contentCharsCounter;
     }

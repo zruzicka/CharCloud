@@ -8,6 +8,7 @@
 package cz.zr.charcloud;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,9 +34,10 @@ public class ScenarioTest extends TestCase {
      * Test for standard and valid scenario.
      *
      * @throws CharCloudException
+     * @throws IOException
      */
     @Test
-    public void testExecute__validInput__success() throws CharCloudException {
+    public void testExecute__validInput__success() throws CharCloudException, IOException {
         new Scenario(new File(VALID_INPUT)).execute();
     }
 
@@ -43,9 +45,10 @@ public class ScenarioTest extends TestCase {
      * Non existing input file is specified. Defined exception is expected during scenario execution.
      *
      * @throws CharCloudException
+     * @throws IOException
      */
     @Test(expected = CharCloudException.class)
-    public void testExecute__nonExistingInput__CharCloudException() throws CharCloudException {
+    public void testExecute__nonExistingInput__CharCloudException() throws CharCloudException, IOException {
         Scenario scenario = new Scenario(new File("nonExistingResource.none"));
         scenario.execute();
     }

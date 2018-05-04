@@ -5,26 +5,26 @@
  *
  */
 
-package cz.zr.charcloud.gen;
+package cz.zr.charcloud.serialization;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
 
 import cz.zr.charcloud.CharMetrics;
-import cz.zr.charcloud.exc.InputException;
 
 /**
- * {@link MetricsSerializer} serialises individual calculated {@link CharMetrics}.
- * 
+ * {@link MetricsSerializer} serializes individual calculated {@link CharMetrics}.
+ *
  * @author ZRuzicka
  */
-public class MetricsSerializer extends AbstractGenerator {
+public class MetricsSerializer extends AbstractSerializer {
 
     public MetricsSerializer(OutputStream output) {
         super(output);
     }
 
-    public void serialize(Collection<CharMetrics> metrics) throws InputException {
+    public void serialize(Collection<CharMetrics> metrics) throws IOException {
         for (CharMetrics charMetrics : metrics) {
             write(charMetrics.toShortString() + "\n");
         }
