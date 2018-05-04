@@ -19,7 +19,7 @@ import cz.zr.charcloud.utils.Factory;
  */
 public class CharRegister {
 
-	static final int CHAR_KEY_INDEX = 0;
+    static final int CHAR_KEY_INDEX = 0;
     static final int METRICS_INDEX = 1;
     static final int REGISTER_LENGTH = 255;
 
@@ -29,6 +29,12 @@ public class CharRegister {
         register = new Object[REGISTER_LENGTH][2];
     }
 
+    /**
+     * Individual char is registered. If char is recognized, metrics can be incremented, otherwise new record is registered.
+     *
+     * @param character
+     * @return
+     */
     public CharMetrics add(char character) {
         CharMetrics metrics = loadMetricsAt(character);
         if (metrics != null) {
@@ -41,6 +47,11 @@ public class CharRegister {
         return metrics;
     }
 
+    /**
+     * Provides currently available and registered metrics.
+     *
+     * @return
+     */
     public Collection<CharMetrics> getMetrics() {
         Collection<CharMetrics> result = new ArrayList();
         for (int i = 0; i < REGISTER_LENGTH; i++) {
@@ -55,7 +66,7 @@ public class CharRegister {
     private CharMetrics loadMetricsAt(int index) {
         Object record = register[index][METRICS_INDEX];
         CharMetrics metrics;
-        if (record != null && record instanceof CharMetrics) {
+        if (record instanceof CharMetrics) {
             metrics = (CharMetrics) record;
         } else {
             metrics = null;
